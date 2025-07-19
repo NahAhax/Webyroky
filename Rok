@@ -1,17 +1,1 @@
-local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local requestFunc = (http_request or request or syn and syn.request or fluxus and fluxus.request)
-
-requestFunc({
-    Url = "",
-    Method = "POST",
-    Headers = {
-        ["Content-Type"] = "application/json"
-    },
-    Body = HttpService:JSONEncode({
-        msg = "🚀 Webhook logger!",
-        uid = player.UserId,
-        name = player.Name
-    })
-})
+KEYAUTH-LBNG86-ZQfdSZ-vQdkQr-k6Hfkb-WUKVxT-tD3Azk
